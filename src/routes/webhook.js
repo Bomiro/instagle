@@ -61,7 +61,7 @@ async function processMessagingEvent(event) {
 
   // Handle postback (button clicks)
   if (postback && postback.payload) {
-    console.log(`📩 Postback from ${sender.id}: ${postback.payload}`);
+    console.log(`📩 Postback from ${sender.id}`);
     await messageHandler.handlePostback(sender.id, postback.payload);
     return;
   }
@@ -76,8 +76,8 @@ async function processMessagingEvent(event) {
   // Handle regular message
   if (message) {
     // Handle text message
-    if (message.text) {
-      console.log(`💬 Text message from ${sender.id}: ${message.text}`);
+    if (message.text && !message.quick_reply) {
+      console.log(`💬 Text message from ${sender.id}`);
       await messageHandler.handleTextMessage(
         sender,
         message.text,

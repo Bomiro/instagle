@@ -7,7 +7,7 @@ const config = require('../config');
  */
 class InstagramService {
   constructor() {
-    this.baseUrl = `https://graph.facebook.com/${config.INSTAGRAM_API_VERSION}`;
+    this.baseUrl = `https://graph.instagram.com/${config.INSTAGRAM_API_VERSION}`;
     this.accessToken = config.INSTAGRAM_PAGE_ACCESS_TOKEN;
     this.appId = config.INSTAGRAM_APP_ID;
     this.appSecret = config.INSTAGRAM_APP_SECRET;
@@ -56,6 +56,7 @@ class InstagramService {
       console.log(`📤 Message sent to ${recipientId}`);
       return response.data;
     } catch (error) {
+      return
       console.error('Failed to send message:', error.response?.data || error.message);
       throw error;
     }
