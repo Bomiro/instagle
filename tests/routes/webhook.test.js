@@ -102,6 +102,7 @@ describe('Webhook Routes', () => {
 
   describe('POST /webhook', () => {
     const validPayload = {
+      object: 'instagram',
       entry: [{
         id: '123456789',
         time: 1234567890,
@@ -131,6 +132,7 @@ describe('Webhook Routes', () => {
 
     it('should handle text message event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -158,6 +160,7 @@ describe('Webhook Routes', () => {
 
     it('should handle image attachment event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -190,6 +193,7 @@ describe('Webhook Routes', () => {
 
     it('should handle audio attachment event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -220,8 +224,75 @@ describe('Webhook Routes', () => {
       );
     });
 
+    it('should handle video attachment event', async () => {
+      const payload = {
+        object: 'instagram',
+        entry: [{
+          messaging: [{
+            sender: { id: 'user123' },
+            message: {
+              attachments: [{
+                type: 'video',
+                payload: { url: 'https://example.com/video.mp4' }
+              }]
+            }
+          }]
+        }]
+      };
+      
+      const signature = generateSignature(payload, 'test_app_secret');
+
+      await request(app)
+        .post('/webhook')
+        .set('x-hub-signature-256', signature)
+        .send(payload);
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      expect(messageHandler.handleMediaMessage).toHaveBeenCalledWith(
+        { id: 'user123' },
+        'video',
+        'https://example.com/video.mp4',
+        null
+      );
+    });
+
+    it('should handle sticker attachment event', async () => {
+      const payload = {
+        object: 'instagram',
+        entry: [{
+          messaging: [{
+            sender: { id: 'user123' },
+            message: {
+              attachments: [{
+                type: 'sticker',
+                payload: { url: 'https://example.com/sticker.gif' }
+              }]
+            }
+          }]
+        }]
+      };
+      
+      const signature = generateSignature(payload, 'test_app_secret');
+
+      await request(app)
+        .post('/webhook')
+        .set('x-hub-signature-256', signature)
+        .send(payload);
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      expect(messageHandler.handleMediaMessage).toHaveBeenCalledWith(
+        { id: 'user123' },
+        'image',
+        'https://example.com/sticker.gif',
+        null
+      );
+    });
+
     it('should handle postback event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -247,6 +318,7 @@ describe('Webhook Routes', () => {
 
     it('should handle referral event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -269,6 +341,7 @@ describe('Webhook Routes', () => {
 
     it('should handle quick reply event', async () => {
       const payload = {
+        object: 'instagram',
         entry: [{
           messaging: [{
             sender: { id: 'user123' },
@@ -304,7 +377,7 @@ describe('Webhook Routes', () => {
     });
 
     it('should handle empty entry', async () => {
-      const payload = { entry: [] };
+      const payload = { object: 'instagram', entry: [] };
       const signature = generateSignature(payload, 'test_app_secret');
 
       const res = await request(app)

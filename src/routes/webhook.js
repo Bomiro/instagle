@@ -89,12 +89,24 @@ async function processMessagingEvent(event) {
     // Handle attachments (images, audio)
     if (message.attachments && message.attachments.length > 0) {
       for (const attachment of message.attachments) {
-        if (attachment.type === 'image') {
-          console.log(`🖼️ Image from ${sender.id}`);
+        const url = attachment.payload?.url;
+        
+        if (!url) continue;
+
+        if (attachment.type === 'image' || attachment.type === 'animated_image' || attachment.type === 'sticker') {
+          console.log(`🖼️ Image/GIF/Sticker from ${sender.id}`);
           await messageHandler.handleMediaMessage(
             sender,
             MESSAGE_TYPES.IMAGE,
-            attachment.payload?.url,
+            url,
+            message.text || null
+          );
+        } else if (attachment.type === 'video') {
+          console.log(`🎬 Video from ${sender.id}`);
+          await messageHandler.handleMediaMessage(
+            sender,
+            MESSAGE_TYPES.VIDEO,
+            url,
             message.text || null
           );
         } else if (attachment.type === 'audio') {
@@ -102,7 +114,7 @@ async function processMessagingEvent(event) {
           await messageHandler.handleMediaMessage(
             sender,
             MESSAGE_TYPES.AUDIO,
-            attachment.payload?.url,
+            url,
             null
           );
         }

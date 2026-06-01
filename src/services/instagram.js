@@ -138,6 +138,43 @@ class InstagramService {
   }
 
   /**
+   * Send a video message
+   * @param {string} recipientId
+   * @param {string} videoUrl - URL of the video file
+   * @param {string|null} text - Optional caption text
+   * @returns {Promise<Object>}
+   */
+  async sendVideo(recipientId, videoUrl, text = null) {
+    try {
+      const payload = {
+        recipient: { id: recipientId },
+        message: {
+          attachment: {
+            type: 'video',
+            payload: { url: videoUrl, is_reusable: true }
+          }
+        }
+      };
+
+      if (text) {
+        payload.message.attachment.payload.caption = text;
+      }
+
+      const response = await axios.post(
+        `${this.baseUrl}/me/messages`,
+        payload,
+        { headers: this.getHeaders() }
+      );
+
+      console.log(`🎬 Video sent to ${recipientId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to send video:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
    * Send typing indicator
    * @param {string} recipientId
    * @param {boolean} typingOn - True for typing on, false for off
