@@ -144,21 +144,21 @@ class MatcherService {
    */
   getChatButtons() {
     return [
-      {
+      /*{
         type: 'postback',
         title: translator.t('next', 'ar'),
         payload: 'ACTION_NEXT'
-      },
+      },*/
       {
         type: 'postback',
         title: translator.t('stop', 'ar'),
         payload: 'ACTION_STOP'
-      },
+      }/*,
       {
         type: 'postback',
         title: translator.t('report', 'ar'),
         payload: 'ACTION_REPORT'
-      }
+      }*/
     ];
   }
 
@@ -243,15 +243,34 @@ class MatcherService {
     const user = await User.findById(userId);
     if (!user || !user.currentSessionId) return;
 
-    // End session
-    await this.endSession(user.currentSessionId, 'user', false, false);
+    const sessionId = user.currentSessionId;
+    const partnerId = user.partnerId;
 
-    // Send disconnected message
+    // Get session to determine which user is ending
+    const session = await Session.findById(sessionId);
+    if (!session) return;
+
+    // Determine if user is A or B
+    const isUserA = session.userA.toString() === userId.toString();
+    const endReason = isUserA ? 'user_a' : 'user_b';
+
+    // End session
+    await this.endSession(sessionId, endReason, false, false);
+
+    // Notify the user who stopped
     const message = translator.t('disconnected', user.language);
     await instagramService.sendMessage(user.instagramId, message, null);
-
-    // Send main menu
     await this.sendMainMenu(user);
+
+    // Notify the partner that session ended
+    if (partnerId) {
+      const partner = await User.findById(partnerId);
+      if (partner) {
+        const partnerMsg = translator.t('disconnected', partner.language) || translator.t('disconnected', partner.language);
+        await instagramService.sendMessage(partner.instagramId, partnerMsg, null);
+        await this.sendMainMenu(partner);
+      }
+    }
 
     console.log(`🛑 User ${userId} stopped chat`);
   }

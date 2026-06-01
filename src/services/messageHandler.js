@@ -193,9 +193,22 @@ class MessageHandler {
    * @param {string} messageId
    */
   async handleChattingState(user, text, messageId) {
-    // Get partner
+    const lowerText = text.toLowerCase().trim();
     const partner = await User.findById(user.partnerId);
     if (!partner) return;
+
+    const stopCommands = ['stop', 'exit', 'leave', 'quit', 'خروج', 'اخرج', 'انهاء', 'إنهاء'];
+    const nextCommands = ['next', 'skip', 'تالي', 'التالي', 'تغيير', 'تغيير شخص'];
+
+    if (stopCommands.includes(lowerText)) {
+      await matcherService.stopChat(user._id);
+      return;
+    }
+
+    if (nextCommands.includes(lowerText)) {
+      await matcherService.nextPerson(user._id);
+      return;
+    }
 
     // Check for links
     if (linkFilter.containsLink(text)) {
@@ -227,7 +240,21 @@ class MessageHandler {
       false
     );
 
-    await instagramService.sendMessage(partner.instagramId, text);
+    // Quick reply buttons for partner
+    const quickReplies = [
+      {
+        content_type: 'text',
+        title: translator.t('next', partner.language) || '⏭️ Next',
+        payload: 'ACTION_NEXT'
+      },
+      {
+        content_type: 'text',
+        title: translator.t('stop', partner.language) || '❌ Exit',
+        payload: 'ACTION_STOP'
+      }
+    ];
+
+    await instagramService.sendMessage(partner.instagramId, text, quickReplies);
     
     // Mark message as seen from sender's side
     await instagramService.markAsSeen(user.instagramId);

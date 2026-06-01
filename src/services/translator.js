@@ -3,15 +3,13 @@ const config = require('../config');
 const translations = {
   ar: {
     // Welcome & Onboarding
-    welcome: 'مرحباً بك في **InstaGle**! المنصة رقم #1 للدردشة العشوائية والسرية على إنستغرام. 💬',
+    welcome: 'مرحباً بك! المنصة رقم #1 للدردشة العشوائية والسرية على إنستغرام. 💬',
     not_following: 'مرحباً! للتفاعل مع البوت، يرجى متابعة الحساب أولاً 👆',
-    how_it_works: `📖 **كيف يعمل InstaGle؟**
+    how_it_works: `📖 **كيف يعمل**
     
 🎲 اضغط على "ابدأ الدردشة" للبحث عن شخص عشوائي
 💬 تحدث مع شخص مجهول الهوية بشكل آمن
-🔄 استخدم "التالي" للبحث عن شخص جديد
 🛑 استخدم "إيقاف" لإنهاء المحادثة
-🚨 استخدم "تبليغ" للإبلاغ عن أي سلوك غير لائق
 
 ⚠️ **تنبيه:** مشاركة الروابط أو الحسابات ممنوعة للحفاظ على أمان الجميع.`,
 
@@ -48,14 +46,14 @@ const translations = {
 
     // Selection
     select_language: '🌐 اختر لغتك المفضلة:',
-    select_ar: '🇸🇦 العربية',
+    select_ar: '🇲🇦 العربية',
     select_en: '🇬🇧 English'
   },
   en: {
     // Welcome & Onboarding
-    welcome: 'Welcome to **InstaGle**! The #1 platform for random and anonymous chat on Instagram. 💬',
+    welcome: 'Welcome! The #1 platform for random and anonymous chat on Instagram. 💬',
     not_following: 'Hello! To interact with the bot, please follow the account first 👆',
-    how_it_works: `📖 **How does InstaGle work?**
+    how_it_works: `📖 **How does work?**
 
 🎲 Press "Start Chat" to find a random person
 💬 Talk to an anonymous person safely
@@ -98,7 +96,7 @@ const translations = {
 
     // Selection
     select_language: '🌐 Select your preferred language:',
-    select_ar: '🇸🇦 العربية',
+    select_ar: '🇲🇦 العربية',
     select_en: '🇬🇧 English'
   }
 };
