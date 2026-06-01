@@ -183,8 +183,17 @@ class MessageHandler {
     
     if (['cancel', 'إلغاء', 'exit', 'خروج'].includes(lowerText)) {
       await this.cancelSearch(user);
+    } else {
+      // Send wait message with cancel option
+      const waitMsg = translator.t('searching_wait', user.language);
+      const cancelBtn = [{
+        type: 'postback',
+        title: translator.t('cancel_search', user.language),
+        payload: 'ACTION_CANCEL_SEARCH'
+      }];
+      
+      await instagramService.sendMessage(user.instagramId, waitMsg, cancelBtn);
     }
-    // Otherwise ignore - user is waiting for match
   }
 
   /**
@@ -243,11 +252,11 @@ class MessageHandler {
 
     // Quick reply buttons for partner
     const quickReplies = [
-      {
+      /*{
         content_type: 'text',
         title: translator.t('next', partner.language) || '⏭️ Next',
         payload: 'ACTION_NEXT'
-      },
+      },*/
       {
         content_type: 'text',
         title: translator.t('stop', partner.language) || '❌ Exit',
