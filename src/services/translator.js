@@ -5,13 +5,13 @@ const translations = {
     // Welcome & Onboarding
     welcome: 'مرحباً بك! المنصة رقم #1 للدردشة العشوائية والسرية على إنستغرام. 💬',
     not_following: 'مرحباً! للتفاعل مع البوت، يرجى متابعة الحساب أولاً 👆',
-    how_it_works: `📖 **كيف يعمل**
+    how_it_works: `📖 كيف يعمل؟
     
 🎲 اضغط على "ابدأ الدردشة" للبحث عن شخص عشوائي
 💬 تحدث مع شخص مجهول الهوية بشكل آمن
 🛑 استخدم "إيقاف" لإنهاء المحادثة
 
-⚠️ **تنبيه:** مشاركة الروابط أو الحسابات ممنوعة للحفاظ على أمان الجميع.`,
+⚠️ تنبيه: مشاركة الروابط أو الحسابات ممنوعة للحفاظ على أمان الجميع.`,
 
     // Queue States
     searching: 'جاري البحث عن شخص عشوائي... انتظر لحظة ⏳',
@@ -54,7 +54,7 @@ const translations = {
     // Welcome & Onboarding
     welcome: 'Welcome! The #1 platform for random and anonymous chat on Instagram. 💬',
     not_following: 'Hello! To interact with the bot, please follow the account first 👆',
-    how_it_works: `📖 **How does work?**
+    how_it_works: `📖 How does work?
 
 🎲 Press "Start Chat" to find a random person
 💬 Talk to an anonymous person safely
@@ -62,7 +62,7 @@ const translations = {
 🛑 Use "Stop" to end the conversation
 🚨 Use "Report" to flag inappropriate behavior
 
-⚠️ **Warning:** Sharing links or accounts is prohibited to keep everyone safe.`,
+⚠️ Warning: Sharing links or accounts is prohibited to keep everyone safe.`,
 
     // Queue States
     searching: 'Searching for a random person... please wait ⏳',
