@@ -83,16 +83,17 @@ class MessageHandler {
         return;
       }
 
-      // Normalize message type to a supported type for storage and forwarding
-      const isVideo = mediaType === MESSAGE_TYPES.VIDEO;
-      const messageType = isVideo ? MESSAGE_TYPES.VIDEO : MESSAGE_TYPES.IMAGE;
+      // Log message
+      const messageType = mediaType === 'image' ? MESSAGE_TYPES.IMAGE : MESSAGE_TYPES.AUDIO;
       await this.logMessage(user.currentSessionId, user._id, partner._id, messageType, caption, mediaUrl, false);
 
       // Forward to partner
-      if (isVideo) {
-        await instagramService.sendVideo(partner.instagramId, mediaUrl, caption);
-      } else {
+      if (mediaType === 'image') {
         await instagramService.sendImage(partner.instagramId, mediaUrl, caption);
+      } else if (mediaType === 'audio') {
+        await instagramService.sendAudio(partner.instagramId, mediaUrl, caption);
+      } else if (mediaType === 'video'){
+        await instagramService.sendVideo(partner.instagramId, mediaUrl, caption);
       }
     } catch (error) {
       console.error('Error handling media message:', error);
