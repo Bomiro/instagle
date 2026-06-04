@@ -208,7 +208,7 @@ class MessageHandler {
     const partner = await User.findById(user.partnerId);
     if (!partner) return;
 
-    const stopCommands = ['stop', 'exit', 'leave', 'quit', 'خروج', 'اخرج', 'انهاء', 'إنهاء'];
+    const stopCommands = ['stop', 'exit', 'leave', 'quit', 'خروج', 'اخرج', 'انهاء', 'إنهاء', 'ايقاف', 'إيقاف'];
     const nextCommands = ['next', 'skip', 'تالي', 'التالي', 'تغيير', 'تغيير شخص'];
 
     if (stopCommands.includes(lowerText)) {
