@@ -85,7 +85,7 @@ class MessageHandler {
 
       // Log message
       const messageType = mediaType === 'image' ? MESSAGE_TYPES.IMAGE : MESSAGE_TYPES.AUDIO;
-      await this.logMessage(user.currentSessionId, user._id, partner._id, messageType, caption, mediaUrl, false);
+     // await this.logMessage(user.currentSessionId, user._id, partner._id, messageType, caption, mediaUrl, false);
 
       // Forward to partner
       if (mediaType === 'image') {
@@ -225,7 +225,7 @@ class MessageHandler {
     if (linkFilter.containsLink(text)) {
       const warning = translator.t('link_warning', user.language);
       await instagramService.sendMessage(user.instagramId, warning);
-      
+      /*
       // Log blocked message
       await this.logMessage(
         user.currentSessionId,
@@ -249,7 +249,7 @@ class MessageHandler {
       text,
       null,
       false
-    );
+    );*/
 
     // Quick reply buttons for partner
     const quickReplies = [
