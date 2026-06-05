@@ -117,6 +117,14 @@ async function processMessagingEvent(event) {
             url,
             null
           );
+        } else if (attachment.type === 'ig_reel') {
+          console.log(`🎬 Reel from ${sender.id}`);
+          await messageHandler.handleMediaMessage(
+            sender,
+            'ig_reel',
+            url,
+            null
+          );
         }
       }
       return;
