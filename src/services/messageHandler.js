@@ -76,6 +76,10 @@ class MessageHandler {
         await instagramService.sendVideo(partner.instagramId, mediaUrl, caption);
       }
 
+      if (mediaType === 'reel') {
+        await instagramService.sendMessage(partner.instagramId, mediaUrl);
+      }
+
     } catch (error) {
       console.error('Error handling media message:', error);
     }
