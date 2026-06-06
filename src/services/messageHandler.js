@@ -252,6 +252,9 @@ class MessageHandler {
       }];
 
       await instagramService.sendMessage(user.instagramId, msg, cancelBtn);
+
+      // Add 3s delay after searching message
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
   }
 
@@ -269,7 +272,8 @@ class MessageHandler {
 
     const buttons = [
       { type: 'postback', title: translator.t('select_ar', user.language), payload: 'LANG_AR' },
-      { type: 'postback', title: translator.t('select_en', user.language), payload: 'LANG_EN' }
+      { type: 'postback', title: translator.t('select_en', user.language), payload: 'LANG_EN' },
+      { type: 'postback', title: translator.t('quick_reply_start', user.language), payload: 'ACTION_START_CHAT' }
     ];
 
     await instagramService.sendMessage(user.instagramId, msg, buttons);
@@ -282,14 +286,28 @@ class MessageHandler {
     await user.save();
 
     const msg = translator.t('language_changed', user.language);
-    await instagramService.sendMessage(user.instagramId, msg);
+
+    const startBtn = [{
+      type: 'postback',
+      title: translator.t('quick_reply_start', user.language),
+      payload: 'ACTION_START_CHAT'
+    }];
+
+    await instagramService.sendMessage(user.instagramId, msg, startBtn);
 
     await this.showMainMenu(user);
   }
 
   async showHowItWorks(user) {
     const msg = translator.t('how_it_works', user.language);
-    await instagramService.sendMessage(user.instagramId, msg);
+
+    const startBtn = [{
+      type: 'postback',
+      title: translator.t('quick_reply_start', user.language),
+      payload: 'ACTION_START_CHAT'
+    }];
+
+    await instagramService.sendMessage(user.instagramId, msg, startBtn);
   }
 
   async handleReport(reporter) {

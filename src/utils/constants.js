@@ -35,7 +35,8 @@ const BUTTON_TYPES = {
   CANCEL_SEARCH: 'cancel_search',
   NEXT: 'next',
   STOP: 'stop',
-  REPORT: 'report'
+  REPORT: 'report',
+  QUICK_START: 'quick_start'
 };
 
 module.exports = {

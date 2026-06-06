@@ -44,6 +44,7 @@ const translations = {
     stop: '🛑 إيقاف',
     report: '🚨 تبليغ',
     back_to_menu: '↩️ العودة للقائمة',
+    quick_reply_start: '🎲 ابدأ',
 
     // Selection
     select_language: '🌐 اختر لغتك المفضلة:',
@@ -95,6 +96,7 @@ const translations = {
     stop: '🛑 Stop',
     report: '🚨 Report',
     back_to_menu: '↩️ Back to Menu',
+    quick_reply_start: '🎲 Start',
 
     // Selection
     select_language: '🌐 Select your preferred language:',

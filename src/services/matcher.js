@@ -229,6 +229,9 @@ class MatcherService {
     const message = translator.t('searching', user.language);
     await instagramService.sendMessage(user.instagramId, message, null);
 
+    // Add 3s delay after searching message
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     // Add user back to queue
     await queueService.addToQueue(userId);
 
