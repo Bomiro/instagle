@@ -19,8 +19,6 @@ router.get('/', verifyChallenge);
  */
 router.post('/', verifyWebhook, messageLimiter, async (req, res) => {
   try {
-    // Always respond quickly to acknowledge receipt
-    res.status(200).send('OK');
 
     // Process events
     const { entry } = req.body;
@@ -47,6 +45,8 @@ router.post('/', verifyWebhook, messageLimiter, async (req, res) => {
   } catch (error) {
     console.error('Webhook processing error:', error);
   }
+    // Always respond quickly to acknowledge receipt
+    res.status(200).send('OK');
 });
 
 /**
