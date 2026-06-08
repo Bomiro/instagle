@@ -21,6 +21,8 @@ const translations = {
     // Chat
     found_partner: '🎉 تم العثور على شخص! يمكنكما التحدث الآن بكل سرية وأمان. هوّيتكما مجهولة تماماً.',
     disconnected: '🚶 غادر أحد المستخدمين. العودة للقائمة الرئيسية.',
+    disconnected_a: '🚶 لقد غادرت الدردشة.',
+    disconnected_b: '🚶 غادر الطرف الآخر الدردشة.',
 
     // Link Filter
     link_warning: '⚠️ عذراً، مشاركة الروابط أو الحسابات ممنوعة تماماً داخل المحادثة للحفاظ على الأمان والسرية!',
@@ -73,6 +75,8 @@ const translations = {
     // Chat
     found_partner: '🎉 Match found! You can now talk freely and safely. Your identity is completely anonymous.',
     disconnected: '🚶 A user has left. Returning to the main menu.',
+    disconnected_a: '🚶 You have left the chat.',
+    disconnected_b: '🚶 The other user has left the chat.',
 
     // Link Filter
     link_warning: '⚠️ Sorry, sharing links or accounts is strictly forbidden in chat to maintain safety and privacy!',
