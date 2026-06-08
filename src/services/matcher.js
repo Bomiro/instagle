@@ -261,7 +261,7 @@ class MatcherService {
     await this.endSession(sessionId, endReason, false, false);
 
     // Notify the user who stopped
-    const message = translator.t('disconnected', user.language);
+    const message = translator.t('disconnected_a', user.language);
     await instagramService.sendMessage(user.instagramId, message, null);
     await this.sendMainMenu(user);
 
@@ -269,7 +269,7 @@ class MatcherService {
     if (partnerId) {
       const partner = await User.findById(partnerId);
       if (partner) {
-        const partnerMsg = translator.t('disconnected', partner.language) || translator.t('disconnected', partner.language);
+        const partnerMsg = translator.t('disconnected_b', partner.language) || translator.t('disconnected_b', partner.language);
         await instagramService.sendMessage(partner.instagramId, partnerMsg, null);
         await this.sendMainMenu(partner);
       }
