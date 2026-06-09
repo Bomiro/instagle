@@ -267,7 +267,11 @@ class MessageHandler {
   }
 
   async cancelSearch(user) {
+    // Remove user from queue
     await queueService.removeFromQueue(user._id);
+
+    // Clear any pending search timeout to prevent a stray "search cancelled" message after a match
+    matcherService.clearSearchTimeout(user._id);
 
     const msg = translator.t('search_cancelled', user.language);
     await instagramService.sendMessage(user.instagramId, msg);
