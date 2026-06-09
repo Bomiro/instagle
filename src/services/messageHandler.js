@@ -14,6 +14,9 @@ class MessageHandler {
 
   async handleTextMessage(sender, text, messageId = null) {
     try {
+      // Clean profanity from incoming text
+      const { cleanText } = require('./badwordFilter');
+      const cleaned = cleanText(text);
       let user = await User.findOne({ instagramId: sender.id });
 
       if (!user) {
@@ -32,15 +35,15 @@ class MessageHandler {
 
       switch (user.state) {
         case USER_STATES.IDLE:
-          await this.handleIdleState(user, text);
+          await this.handleIdleState(user, cleaned);
           break;
 
         case USER_STATES.QUEUED:
-          await this.handleQueuedState(user, text);
+          await this.handleQueuedState(user, cleaned);
           break;
 
         case USER_STATES.CHATTING:
-          await this.handleChattingState(user, text, messageId);
+          await this.handleChattingState(user, cleaned, messageId);
           break;
       }
     } catch (error) {
