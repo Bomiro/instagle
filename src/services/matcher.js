@@ -136,6 +136,9 @@ class MatcherService {
     // Create quick reply buttons
     const buttons = this.getChatButtons();
 
+    // Add a 3‑second delay before linking users (sending the match messages)
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     await Promise.all([
       instagramService.sendMessage(userA.instagramId, messageA, buttons),
       instagramService.sendMessage(userB.instagramId, messageB, buttons)

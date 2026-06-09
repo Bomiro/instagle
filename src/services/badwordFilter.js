@@ -10,9 +10,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load bad words once at module initialization. The JSON file contains an
-// array of strings. We normalise each entry to lower‑case for case‑insensitive
-// comparison.
 let badWords = [];
 try {
   const badWordsPath = path.resolve(__dirname, '..', 'badwords.json');
@@ -22,9 +19,6 @@ try {
     badWords = parsed.map((w) => w.toLowerCase());
   }
 } catch (err) {
-  // If the file cannot be read we fail silently – the filter will simply do
-  // nothing. This mirrors typical production behaviour where the service
-  // should not crash the whole app because of a missing optional file.
   console.error('Failed to load badwords.json:', err.message);
 }
 
@@ -37,13 +31,15 @@ try {
 function cleanText(text) {
   if (typeof text !== 'string' || badWords.length === 0) return text;
 
-  // Build a regular expression that matches any of the bad words.
-  // We escape special regex characters in each word to avoid unintended
-  // patterns, then join them with the alternation operator '|'.
+  // 1. هروب الحروف الخاصة بالـ Regex لحماية النمط
   const escaped = badWords
     .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     .join('|');
-  const regex = new RegExp(`\\b(${escaped})\\b`, 'gi');
+
+  // 2. استخدام الـ Unicode boundaries بدلاً من \b لدعم اللغة العربية
+  // فكرة النمط: تأكد أن الكلمة غير مسبوقة بحرف (\p{L}) وغير متبوعة بحرف (\p{L})
+  // علم 'u' ضروري جداً لتفعيل خاصية الـ Unicode في الـ Regex
+  const regex = new RegExp(`(?<!\\p{L})(${escaped})(?!\\p{L})`, 'gui');
 
   // Replace each match with asterisks of the same length.
   return text.replace(regex, (match) => '*'.repeat(match.length));
