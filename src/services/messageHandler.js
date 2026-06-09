@@ -212,7 +212,7 @@ class MessageHandler {
     ];
 
     await instagramService.sendMessage(partner.instagramId, text, quickReplies);
-    await instagramService.markAsSeen(user.instagramId);
+    //await instagramService.markAsSeen(user.instagramId);
   }
 
   async showMainMenu(user) {
@@ -255,6 +255,11 @@ class MessageHandler {
 
       // Add 3s delay after searching message
       await new Promise(resolve => setTimeout(resolve, 3000));
+      // Set 90s timeout for search
+      const timeoutId = setTimeout(() => {
+        this.cancelSearch(user);
+      }, 90000);
+      matcherService.setSearchTimeout(user._id, timeoutId);
     }
   }
 

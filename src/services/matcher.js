@@ -12,6 +12,7 @@ const { USER_STATES, SESSION_STATUS } = require('../utils/constants');
 class MatcherService {
   constructor() {
     this.matchingInterval = null;
+    this.searchTimeouts = {};
   }
 
   /**
@@ -60,6 +61,9 @@ class MatcherService {
 
       if (session) {
         console.log(`🎉 Matched users: ${userAId} <-> ${userBId}`);
+        // clear any search timeouts for matched users
+        this.clearSearchTimeout(userAId);
+        this.clearSearchTimeout(userBId);
         return 1;
       }
 
@@ -303,6 +307,21 @@ class MatcherService {
     ];
 
     await instagramService.sendMessage(user.instagramId, welcome, buttons);
+  }
+
+  /**
+   * Manage search timeouts for users waiting in queue
+   */
+  setSearchTimeout(userId, timeoutId) {
+    this.searchTimeouts[userId] = timeoutId;
+  }
+
+  clearSearchTimeout(userId) {
+    const timeout = this.searchTimeouts[userId];
+    if (timeout) {
+      clearTimeout(timeout);
+      delete this.searchTimeouts[userId];
+    }
   }
 }
 
