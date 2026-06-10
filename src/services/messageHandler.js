@@ -256,12 +256,12 @@ class MessageHandler {
 
       await instagramService.sendMessage(user.instagramId, msg, cancelBtn);
 
-      // Add 3s delay after searching message
+      // Add 2min delay after searching message
       await new Promise(resolve => setTimeout(resolve, 3000));
       // Set 90s timeout for search
       const timeoutId = setTimeout(() => {
         this.cancelSearch(user);
-      }, 90000);
+      }, 2 * 60 * 1000);
       matcherService.setSearchTimeout(user._id, timeoutId);
     }
   }
