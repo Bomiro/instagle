@@ -158,14 +158,14 @@ class MatcherService {
       },*/
       {
         type: 'postback',
-        title: translator.t('stop', 'ar'),
+        title: translator.t('exit', 'ar'),
         payload: 'ACTION_STOP'
-      }/*,
+      },
       {
         type: 'postback',
         title: translator.t('report', 'ar'),
         payload: 'ACTION_REPORT'
-      }*/
+      }
     ];
   }
 

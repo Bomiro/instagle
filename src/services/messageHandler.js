@@ -209,8 +209,13 @@ class MessageHandler {
     const quickReplies = [
       {
         content_type: 'text',
-        title: translator.t('stop', partner.language) || '❌ Exit',
+        title: translator.t('exit', partner.language) || '❌ Exit',
         payload: 'ACTION_STOP'
+      },
+      {
+        content_type: 'text',
+        title: translator.t('report', partner.language) || '🚨 Report',
+        payload: 'ACTION_REPORT'
       }
     ];
 
@@ -361,8 +366,10 @@ class MessageHandler {
 
     await reported.save();
 
-    const msg = translator.t('report_confirm', reporter.language);
-    await instagramService.sendMessage(reporter.instagramId, msg);
+    // Include reporter's ID in the confirmation message for admin tracking
+    const baseMsg = translator.t('report_confirm', reporter.language);
+    const msgWithId = `${baseMsg}\nID: ${reporter._id}`;
+    await instagramService.sendMessage(reporter.instagramId, msgWithId);
 
     if (reporter.currentSessionId) {
       await matcherService.endSession(
