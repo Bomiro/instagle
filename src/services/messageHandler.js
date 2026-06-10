@@ -267,6 +267,12 @@ class MessageHandler {
   }
 
   async cancelSearch(user) {
+    // If the user is already matched (has a partner), do not cancel the search
+    if (user.partnerId) {
+      // User is in a chat, ignore cancel request
+      return;
+    }
+
     // Remove user from queue
     await queueService.removeFromQueue(user._id);
 
