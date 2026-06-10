@@ -45,7 +45,7 @@ const translations = {
     next: '⏩ التالي',
     stop: '🛑 إيقاف',
     exit: '🚪 خروج',
-    report: '🚨 تبليغ',
+    report: '⚠️ تبليغ',
     back_to_menu: '↩️ العودة للقائمة',
     quick_reply_start: '🎲 ابدأ',
 
@@ -100,7 +100,7 @@ const translations = {
     next: '⏩ Next',
     stop: '🛑 Stop',
     exit: '🚪 Exit',
-    report: '🚨 Report',
+    report: '⚠️ Report',
     back_to_menu: '↩️ Back to Menu',
     quick_reply_start: '🎲 Start',
 
