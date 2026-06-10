@@ -12,6 +12,24 @@ const { USER_STATES, MESSAGE_TYPES, END_REASONS } = require('../utils/constants'
 
 class MessageHandler {
 
+  /**
+   * Returns a human readable string of remaining ban time.
+   * @param {Object} user mongoose user document
+   * @returns {string} e.g. "5 minutes" or "2 hours"
+   */
+  getBanRemaining(user) {
+    if (!user.banUntil) return '';
+    const now = new Date();
+    const diffMs = user.banUntil - now;
+    if (diffMs <= 0) return '';
+    const diffMins = Math.round(diffMs / 60000);
+    if (diffMins < 60) {
+      return `${diffMins} minute${diffMins !== 1 ? 's' : ''}`;
+    }
+    const diffHours = Math.round(diffMins / 60);
+    return `${diffHours} hour${diffHours !== 1 ? 's' : ''}`;
+  }
+
   async handleTextMessage(sender, text, messageId = null) {
     try {
       // Clean profanity from incoming text
@@ -23,15 +41,18 @@ class MessageHandler {
         user = await this.createUser(sender);
       }
 
-      if (user.state === USER_STATES.BANNED) {
-        await user.clearBan();
-
         if (user.state === USER_STATES.BANNED) {
-          const banMsg = translator.t('banned', user.language);
-          await instagramService.sendMessage(sender.id, banMsg);
-          return;
+          await user.clearBan();
+
+          if (user.state === USER_STATES.BANNED) {
+            const remaining = this.getBanRemaining(user);
+            const banMsg = remaining
+              ? `${translator.t('banned', user.language)} (${remaining})`
+              : translator.t('banned', user.language);
+            await instagramService.sendMessage(sender.id, banMsg);
+            return;
+          }
         }
-      }
 
       switch (user.state) {
         case USER_STATES.IDLE:
@@ -53,10 +74,22 @@ class MessageHandler {
 
   async handleMediaMessage(sender, mediaType, mediaUrl, caption = null) {
     try {
-      const user = await User.findOne({ instagramId: sender.id });
-      if (!user) return;
+        const user = await User.findOne({ instagramId: sender.id });
+        if (!user) return;
+        if (user.state === USER_STATES.BANNED) {
+          await user.clearBan();
 
-      if (user.state !== USER_STATES.CHATTING) return;
+          if (user.state === USER_STATES.BANNED) {
+            const remaining = this.getBanRemaining(user);
+            const banMsg = remaining
+              ? `${translator.t('banned', user.language)} (${remaining})`
+              : translator.t('banned', user.language);
+            await instagramService.sendMessage(sender.id, banMsg);
+            return;
+          }
+        }
+
+        if (user.state !== USER_STATES.CHATTING) return;
 
       const partner = await User.findById(user.partnerId);
       if (!partner) return;
