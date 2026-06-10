@@ -92,9 +92,9 @@ const translations = {
     language_changed: '✅ Language changed successfully.',
 
     // Buttons
-    start_chat: '🎲 Start Chat',
-    change_language: '🌐 Change Language',
-    how_it_works_btn: 'ℹ️ How it works?',
+    start_chat: '🎲 Start',
+    change_language: '🌐 Language',
+    how_it_works_btn: 'ℹ️ Ideas',
     cancel_search: '❌ Cancel Search',
     next: '⏩ Next',
     stop: '🛑 Stop',
