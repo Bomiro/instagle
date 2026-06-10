@@ -29,10 +29,10 @@ const translations = {
 
     // Reports
     report_confirm: '✅ تم تلقي تبليغك بنجاح. شكراً لمساعدتنا في الحفاظ على بيئة آمنة.',
-    reported_user_banned: '⚠️ تم حظر حسابك مؤقتاً لمدة 48 ساعة بسبب تلقي تبليغات متعددة عن سلوك غير لائق.',
+    reported_user_banned: '⚠️ تم حظر حسابك مؤقتاً لمدة 24 ساعة بسبب تلقي تبليغات متعددة عن سلوك غير لائق.',
 
     // Banned
-    banned: '⚠️ تم حظر حسابك مؤقتاً لمدة 48 ساعة بسبب تلقي تبليغات متعددة عن سلوك غير لائق.',
+    banned: '⚠️ تم حظر حسابك مؤقتاً لمدة 24 ساعة بسبب تلقي تبليغات متعددة عن سلوك غير لائق.',
 
     // Language
     language_changed: '✅ تم تغيير اللغة بنجاح.',
@@ -84,10 +84,10 @@ const translations = {
 
     // Reports
     report_confirm: '✅ Your report has been received. Thank you for helping us maintain a safe environment.',
-    reported_user_banned: '⚠️ Your account has been temporarily banned for 48 hours due to multiple reports of inappropriate behavior.',
+    reported_user_banned: '⚠️ Your account has been temporarily banned for 24 hours due to multiple reports of inappropriate behavior.',
 
     // Banned
-    banned: '⚠️ Your account has been temporarily banned for 48 hours due to multiple reports of inappropriate behavior.',
+    banned: '⚠️ Your account has been temporarily banned for 24 hours due to multiple reports of inappropriate behavior.',
 
     // Language
     language_changed: '✅ Language changed successfully.',

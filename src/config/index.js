@@ -24,7 +24,7 @@ module.exports = {
   RATE_LIMIT_MAX_MESSAGES: parseInt(process.env.RATE_LIMIT_MAX_MESSAGES) || 30,
 
   // Security
-  BAN_DURATION_HOURS: parseInt(process.env.BAN_DURATION_HOURS) || 48,
+  BAN_DURATION_HOURS: parseInt(process.env.BAN_DURATION_HOURS) || 24,
   STRIKES_THRESHOLD: parseInt(process.env.STRIKES_THRESHOLD) || 3,
   STRIKES_WINDOW_HOURS: parseInt(process.env.STRIKES_WINDOW_HOURS) || 24,
 

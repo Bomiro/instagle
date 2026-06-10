@@ -7,7 +7,7 @@ jest.mock('../../src/services/translator');
 jest.mock('../../src/config', () => ({
   DEFAULT_LANGUAGE: 'ar',
   SUPPORTED_LANGUAGES: ['ar', 'en'],
-  BAN_DURATION_HOURS: 48,
+  BAN_DURATION_HOURS: 24,
   STRIKES_THRESHOLD: 3,
   STRIKES_WINDOW_HOURS: 24
 }));
