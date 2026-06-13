@@ -16,7 +16,7 @@ const translations = {
     // Queue States
     searching: 'جاري البحث عن شخص عشوائي... انتظر لحظة ⏳',
     searching_wait: 'لا تزال في انتظار شخص ما... يرجى الانتظار قليلاً ⏳',
-    search_cancelled: 'تم إلغاء البحث. العودة للقائمة الرئيسية 🔄',
+    search_cancelled: 'تم إلغاء البحث ❌',
     no_users_online: 'لا يوجد مستخدمون متصلون حالياً. حاول مرة أخرى لاحقاً.',
 
     // Chat
@@ -75,7 +75,7 @@ const translations = {
     // Queue States
     searching: 'Searching for a random person... please wait ⏳',
     searching_wait: 'Still waiting for someone... please be patient ⏳',
-    search_cancelled: 'Search cancelled. Returning to main menu 🔄',
+    search_cancelled: 'Search cancelled ❌',
     no_users_online: 'No users online now, try again later.',
     // Chat
     found_partner: '🎉 Match found! You can now talk freely and safely. Your identity is completely anonymous.',
