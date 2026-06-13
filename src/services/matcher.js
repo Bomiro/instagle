@@ -3,7 +3,7 @@ const Session = require('../models/Session');
 const queueService = require('./queue');
 const instagramService = require('./instagram');
 const translator = require('./translator');
-const { USER_STATES, SESSION_STATUS } = require('../utils/constants');
+const { USER_STATES, SESSION_STATUS, END_REASONS } = require('../utils/constants');
 
 /**
  * Matcher Service
@@ -13,6 +13,8 @@ class MatcherService {
   constructor() {
     this.matchingInterval = null;
     this.searchTimeouts = {};
+    // Session inactivity checker
+    this.sessionCheckInterval = null;
   }
 
   /**
@@ -29,6 +31,8 @@ class MatcherService {
     }, intervalMs);
 
     console.log('🔄 Auto-matching started');
+    // Start session inactivity checker
+    this.startSessionChecker();
   }
 
   /**
@@ -40,6 +44,8 @@ class MatcherService {
       this.matchingInterval = null;
       console.log('⏹️ Auto-matching stopped');
     }
+    // Stop session checker
+    this.stopSessionChecker();
   }
 
   /**
@@ -71,6 +77,53 @@ class MatcherService {
     } catch (error) {
       console.error('Match error:', error);
       return 0;
+    }
+  }
+
+  /**
+   * Start periodic check for inactive sessions
+   */
+  startSessionChecker() {
+    if (this.sessionCheckInterval) return;
+    this.sessionCheckInterval = setInterval(async () => {
+      const fiveMinsAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const inactiveSessions = await Session.find({
+        status: SESSION_STATUS.ACTIVE,
+        lastActivity: { $lt: fiveMinsAgo }
+      });
+      for (const session of inactiveSessions) {
+        await this.endSession(session._id, END_REASONS.SYSTEM, false, false);
+        // Notify users
+        const userA = await User.findById(session.userA);
+        const userB = await User.findById(session.userB);
+        if (userA) {
+          // Send session timeout message with a quick reply to restart
+          const startButton = {
+            type: 'postback',
+            title: translator.t('start', userA.language),
+            payload: 'ACTION_START_CHAT'
+          };
+          await instagramService.sendMessage(userA.instagramId, translator.t('session_timeout', userA.language), [startButton]);
+        }
+        if (userB) {
+          const startButton = {
+            type: 'postback',
+            title: translator.t('start', userB.language),
+            payload: 'ACTION_START_CHAT'
+          };
+          await instagramService.sendMessage(userB.instagramId, translator.t('session_timeout', userB.language), [startButton]);
+        }
+      }
+    }, 60 * 1000); // check every minute
+  }
+
+  /**
+   * Stop the session inactivity checker
+   */
+  stopSessionChecker() {
+    if (this.sessionCheckInterval) {
+      clearInterval(this.sessionCheckInterval);
+      this.sessionCheckInterval = null;
     }
   }
 

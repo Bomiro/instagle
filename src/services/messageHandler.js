@@ -101,6 +101,13 @@ class MessageHandler {
       }
 
       if (mediaType === 'image') {
+
+    // Update last activity timestamp for the session
+    const session = await Session.findById(user.currentSessionId);
+    if (session) {
+      session.lastActivity = new Date();
+      await session.save();
+    }
         await instagramService.sendImage(partner.instagramId, mediaUrl, caption);
       }
 
@@ -253,6 +260,12 @@ class MessageHandler {
     ];
 
     await instagramService.sendMessage(partner.instagramId, text, quickReplies);
+    // Update last activity timestamp for the session
+    const session = await Session.findById(user.currentSessionId);
+    if (session) {
+      session.lastActivity = new Date();
+      await session.save();
+    }
     //await instagramService.markAsSeen(user.instagramId);
   }
 
@@ -323,9 +336,13 @@ class MessageHandler {
     // Use customMessage if provided, otherwise default translation
     const defaultMsg = translator.t('search_cancelled', user.language);
     const msg = customMessage || defaultMsg;
-    await instagramService.sendMessage(user.instagramId, msg);
+    await instagramService.sendMessage(user.instagramId, msg, [{
+      type: 'postback',
+      title: translator.t('start_chat', user.language),
+      payload: 'ACTION_START_CHAT'
+    }]);
 
-    await this.showMainMenu(user);
+    //await this.showMainMenu(user);
   }
 
   async showLanguageSelector(user) {
@@ -356,7 +373,7 @@ class MessageHandler {
 
     await instagramService.sendMessage(user.instagramId, msg, startBtn);
 
-    await this.showMainMenu(user);
+    //await this.showMainMenu(user);
   }
 
   async showHowItWorks(user) {

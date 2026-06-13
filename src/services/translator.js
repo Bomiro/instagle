@@ -34,6 +34,8 @@ const translations = {
 
     // Banned
     banned: '⚠️ تم حظر حسابك مؤقتاً لمدة 24 ساعة بسبب تلقي تبليغات متعددة عن سلوك غير لائق.',
+  // Session timeout
+  session_timeout: 'تم إيقاف الجلسة تلقائياً بسبب عدم وجود نشاط بينكما لمدة 5 دقائق!!',
 
     // Language
     language_changed: '✅ تم تغيير اللغة بنجاح.',
@@ -46,9 +48,10 @@ const translations = {
     next: '⏩ التالي',
     stop: '🛑 إيقاف',
     exit: '🚪 خروج',
-    report: '🚨 تبليغ',
+    report: '⚠️ تبليغ',
     back_to_menu: '↩️ العودة للقائمة',
     quick_reply_start: '🎲 ابدأ',
+    start: '🎲 ابدأ الدردشة',
 
     // Selection
     select_language: '🌐 اختر لغتك المفضلة:',
@@ -89,6 +92,8 @@ const translations = {
 
     // Banned
     banned: '⚠️ Your account has been temporarily banned for 24 hours due to multiple reports of inappropriate behavior.',
+  // Session timeout
+  session_timeout: 'The session has been automatically ended due to inactivity for 5 minutes!!',
 
     // Language
     language_changed: '✅ Language changed successfully.',
@@ -101,7 +106,7 @@ const translations = {
     next: '⏩ Next',
     stop: '🛑 Stop',
     exit: '🚪 Exit',
-    report: '🚨 Report',
+    report: '⚠️ Report',
     back_to_menu: '↩️ Back to Menu',
     quick_reply_start: '🎲 Start',
 

@@ -18,6 +18,11 @@ const sessionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  // Timestamp of the last activity in the session (message sent)
+  lastActivity: {
+    type: Date,
+    default: Date.now
+  },
   endedAt: {
     type: Date,
     default: null
