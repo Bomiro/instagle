@@ -296,15 +296,18 @@ class MessageHandler {
 
       // Add 2min delay after searching message
       await new Promise(resolve => setTimeout(resolve, 3000));
-      // Set 90s timeout for search
-      const timeoutId = setTimeout(() => {
-        this.cancelSearch(user);
-      }, 2 * 60 * 1000);
+        // Set 2min timeout for search. If no users are found, notify and cancel.
+        const timeoutId = setTimeout(async () => {
+          // Inform the user that no matches were found and they can try again.
+          const noMatchMsg = translator.t('no_users_online', user.language) || 'No users online now, try again.';
+          // Call cancelSearch with a null second argument to trigger default handling.
+          this.cancelSearch(user, noMatchMsg);
+        }, 5 * 60 * 1000);
       matcherService.setSearchTimeout(user._id, timeoutId);
     }
   }
 
-  async cancelSearch(user) {
+  async cancelSearch(user, customMessage = null) {
     // If the user is already matched (has a partner), do not cancel the search
     if (user.partnerId) {
       // User is in a chat, ignore cancel request
@@ -317,7 +320,9 @@ class MessageHandler {
     // Clear any pending search timeout to prevent a stray "search cancelled" message after a match
     matcherService.clearSearchTimeout(user._id);
 
-    const msg = translator.t('search_cancelled', user.language);
+    // Use customMessage if provided, otherwise default translation
+    const defaultMsg = translator.t('search_cancelled', user.language);
+    const msg = customMessage || defaultMsg;
     await instagramService.sendMessage(user.instagramId, msg);
 
     await this.showMainMenu(user);
